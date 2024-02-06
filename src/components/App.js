@@ -19,14 +19,21 @@ function App() {
     }
   }
 
+  const updateQuestions = (newQuestions) => {
+    setQuestions(newQuestions);
+  };
+
   return (
     <main>
       <section>
         {currentQuestion ? (
-          <Question
-            question={currentQuestion}
-            onAnswered={handleQuestionAnswered}
-          />
+          <>
+            <Question
+              question={currentQuestion}
+              onAnswered={handleQuestionAnswered}
+              setQuestions={updateQuestions}
+            />
+          </>
         ) : (
           <>
             <h1>Game Over</h1>
@@ -39,3 +46,5 @@ function App() {
 }
 
 export default App;
+
+

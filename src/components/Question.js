@@ -1,9 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-function Question({ question, onAnswered }) {
+function Question({ question, onAnswered, setQuestions }) {
   const [timeRemaining, setTimeRemaining] = useState(10);
 
-  // add useEffect code
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setTimeRemaining((prevTime) => prevTime - 1);
+    }, 1000);
+
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [timeRemaining]);
+
+  useEffect(() => {
+    if (timeRemaining === 0) {
+      setTimeRemaining(10);
+      onAnswered(false);
+      // Example: Updating questions in the Question component
+      if (setQuestions) {
+        setQuestions((prevQuestions) => [
+          ...prevQuestions,
+          {
+            id: 999,
+            prompt: "New question",
+            answers: ["A", "B", "C", "D"],
+            correctIndex: 2,
+          },
+        ]);
+      }
+    }
+  }, [timeRemaining, onAnswered, setQuestions]);
 
   function handleAnswer(isCorrect) {
     setTimeRemaining(10);
